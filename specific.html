@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block form %}
+
+
+
+<div class="post">
+	<h2><b>{{post.nick_name}}</b></h2>
+	<h4><b>{{post.date}}</b></h4>
+	<p>{{post.english}}</p>
+
+	<div class="vote-container vote-container-button" id="rofl-{{post.key}}">	
+		<span class="vote-button" >rofl</span> 
+		<span class="vote-value">{{post.rofl}}</span>
+	</div>
+	<div class="vote-container vote-container-button" id="lol-{{post.key}}">
+		<span class="vote-button">lol</span> 
+		<span class="vote-value">{{post.lol}}</span>
+	</div>
+	<div class="vote-container vote-container-button" id="meh-{{post.key}}">	
+		<span class="vote-button">meh</span> 
+		<span class="vote-value">{{post.meh}}</span>
+	</div>
+	<div class="vote-container vote-container-button" id="dislike-{{post.key}}">	
+		<span class="vote-button">dislike</span> 
+		<span class="vote-value">{{post.dislike}}</span>
+	</div>
+	
+	<br><br>
+	<h4><b><a href="/specifically/{{post.key}}">Permalink</a></b></h4>
+</div>
+
+
+{% endblock %}
+
+
+
+
+
+
+
