@@ -1,13 +1,14 @@
 application: funny-app1
-version: 4-defriended
+version: 5-dddefriended
 runtime: python27
 api_version: 1
 threadsafe: yes
 
 handlers:
-- url: /css
-  static_dir: css
 
+- url: /sound
+  static_dir: sound
+  
 - url: /js
   static_dir: js
 
@@ -21,9 +22,6 @@ handlers:
 - url: /robots.txt
   static_files: robots.txt
   upload: robots.txt
-- url: /channel.html
-  static_files: channel.html
-  upload: channel.html
 
 
 - url: .*
@@ -34,8 +32,3 @@ handlers:
 libraries:
 - name: webapp2
   version: "2.5.1"
-- name: jinja2
-  version: latest
-  
-builtins:
-- remote_api: on

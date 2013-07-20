@@ -1,93 +1,128 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>dddefriended.com (bitch!)</title>
+	<meta name="description" content="YOU JUST GOT DEFRIENDED">
+	<meta name="keywords" content="how to defriend someone on facebook">
+	<meta name="author" content="Kevando">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- add more of this shit, get it perfect -->
+	<meta property="og:title" content="ddefriended" />
+
+<style>
+
+h1{font-size:9em;font-family:impact}
+img{display:none}
+
+.title{	width: 100%;text-align: center;}
+.title h1 span{display:none;}
+#popo{position:absolute;bottom:0px;right:0px;opacity:0.0;cursor:pointer;}
+
+</style>
 
 
-{% block post-list %}
-
-{% for post in posts %}
-
-<div class="post">
-	<h2><b>{{post.nick_name}}</b></h2>
-	<h4><b>{{post.date}}</b></h4>
-	<p>{{post.english}}</p>
-
-	<div class="vote-container vote-container-button" id="rofl-{{post.key}}">	
-		<span class="vote-button" >rofl</span> 
-		<span class="vote-value">{{post.rofl}}</span>
-	</div>
-	<div class="vote-container vote-container-button" id="lol-{{post.key}}">
-		<span class="vote-button">lol</span> 
-		<span class="vote-value">{{post.lol}}</span>
-	</div>
-	<div class="vote-container vote-container-button" id="meh-{{post.key}}">	
-		<span class="vote-button">meh</span> 
-		<span class="vote-value">{{post.meh}}</span>
-	</div>
-	<div class="vote-container vote-container-button" id="dislike-{{post.key}}">	
-		<span class="vote-button">dislike</span> 
-		<span class="vote-value">{{post.dislike}}</span>
-	</div>
+</head>
+<body>
+<div class="container">
 	
-	<br><br>
-	<h4><b><a href="/specifically/{{post.key}}">Permalink</a></b></h4>
+	<div class="title">
+		<h1 id="title-text"><span>D-</span><span>D-</span><span>DE-</span><span>FRI</span><span>EN</span><span>DEDD</span></h1>
+	</div>
 </div>
-{% endfor %}
+
+<div id="loading-sound">Loading Audio...</div>
+
+<img id="popo" onClick="clearInterval(flashingTitle);"/>
+
+<script type="text/javascript">
+
+// Immediately load audio clip, wait 750ms before playing it
+function loadSound(callback){
+	
+	audioSrc = 'http://166.78.112.133/img/d3_friended_take3.mp3';
+	//audioSrc = 'sound/d3_friended_take3.mp3';
+	sound = document.createElement("audio");
+	sound.src = audioSrc;
+	sound.muted=false;
+	
+	setTimeout(function(){
+		sound.addEventListener('canplaythrough',playSound(sound), false); // dont think this actually works
+	},750);
+}
+
+// After mp3 is loaded, play it and display title
+function playSound(audio){
+	document.getElementById('loading-sound').style.display = 'none';
+	audio.play();
+	displayTitle();
+}
+
+// display title in sync with the clip
+function displayTitle(){	
+	var title = document.getElementById("title-text");
+	setTimeout(function(){title.childNodes[0].style.display="inline";},1250);
+	setTimeout(function(){title.childNodes[1].style.display="inline";},1350);
+	setTimeout(function(){title.childNodes[2].style.display="inline";},1450);
+	setTimeout(function(){title.childNodes[3].style.display="inline";},1650);
+	setTimeout(function(){title.childNodes[4].style.display="inline";},1750);
+	setTimeout(function(){title.childNodes[5].style.display="inline";},1950);
+	
+	setTimeout(function(){
+		flashBackground();	
+	},4050);
+}
+// about 3seconds in flash bg
+function flashBackground(){
+	var interval = 300;
+	flashingBackground = setInterval(function(){
+		var color = '#'+Math.floor(Math.random()*16777215).toString(16);
+		document.getElementsByTagName("body")[0].style.background = color;
+	},interval);
+	
+	setTimeout(function(){
+		flashTitle();	
+	},2050);
+}
+
+// about 5 seconds in, flash title, set bg black, fade in pogo
+function flashTitle(){
+	flashingTitle = setInterval(function(){
+		var color = '#'+Math.floor(Math.random()*16777215).toString(16);
+		document.getElementById("title-text").style.color = color;
+	},100);
+	
+	setTimeout(function(){
+		clearInterval(flashingBackground);
+		document.getElementsByTagName("body")[0].style.background = "#000";
+		firstImage = document.getElementById('popo'); 
+		firstImage.src = "img/popo.jpg";
+		firstImage.onload  = function(){                               
+		                firstImage.style.display="inline";
+		        }
+		
+		fadeInImage(firstImage);
+	},3050);
+}
+
+function fadeInImage(image){
+	var opacity = 0.0;
+	imageFade = setInterval(function(){
+		opacity = opacity + 0.1;
+		image.style.opacity = opacity;
+	},200);
+	
+	setTimeout(function(){
+		clearInterval(imageFade);
+	},4050);
+}
+
+/* Initialize everything!! */
+loadSound("fresh",function(){
+	console.log('async');
+});
 
 
-	<script type="text/javascript">
-		jQuery(document).ready(function() {
-			jQuery('.vote-container-button').click(function(){
-				var elementId = jQuery(this).attr('id');
-				var data = {"elementId":elementId};
-	       	 	jQuery.ajax({
-		  			url: "/upvote",
-		  			type: 'POST',
-					async:false,
-		  			data: data,
-		  			success: function(data, status){
-						console.log('done');
-						jQuery('#'+elementId).addClass('vote-clicked');
-						jQuery('#'+elementId).removeClass('vote-container-button');
-		  			}
-				});
-			});
-			jQuery('#submitButton').click(function(){
-				console.log('clicked share');
-				var elementId = jQuery(this).attr('id');
-				
-				$('#text-post').removeClass("invalid");
-				if($('#text-post').val()==null || $('#text-post').val()==""){
-					$('#text-post').addClass("invalid");
-					return false;
-				}
-				
-				
-				var data = $("#translate").serialize();
-				
-				
-				
-				
-	       	 	jQuery.ajax({
-		  			url: "/submit",
-		  			type: 'POST',
-					async:true,
-		  			data: data,
-		  			success: function(data, status){
-						console.log('returned ok');
-						jQuery('.successful-post').delay(700).fadeIn(60);
-						// delay a thank you message
-						jQuery('#translate').fadeOut(700);
-		  			}
-				});
-			});
-		});
-	</script>
+</script>
 
-
-{% endblock %}
-
-
-
-
-
-
-
+</body>
+</html>
