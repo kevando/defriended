@@ -1,5 +1,5 @@
 application: funny-app1
-version: 5-dddefriended
+version: 6-dddefriended
 runtime: python27
 api_version: 1
 threadsafe: yes
@@ -9,9 +9,6 @@ handlers:
 - url: /sound
   static_dir: sound
   
-- url: /js
-  static_dir: js
-
 - url: /img
   static_dir: img
 
@@ -23,11 +20,9 @@ handlers:
   static_files: robots.txt
   upload: robots.txt
 
-
 - url: .*
   script: main.app
   
-
 
 libraries:
 - name: webapp2

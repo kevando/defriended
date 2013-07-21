@@ -14,21 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import cgi
+#import cgi
 import webapp2
-#import random
 import os
 from google.appengine.ext.webapp import template
-#import datetime
-#import urllib
-#from google.appengine.ext import db
-#from google.appengine.ext import webapp
-#from google.appengine.ext.webapp.util import run_wsgi_app
-#import logging
-#import re
 
-
-		
 # ---------------------------------------------------------------------
 # Main function
 # ---------------------------------------------------------------------
@@ -46,9 +36,3 @@ class MainPage(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
 							  	('/(.*)', MainPage)],
                               	debug=False)
-
-
-
-
-
-

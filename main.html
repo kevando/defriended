@@ -17,7 +17,7 @@ img{display:none}
 .title{	width: 100%;text-align: center;}
 .title h1 span{display:none;}
 #popo{position:absolute;bottom:0px;right:0px;opacity:0.0;cursor:pointer;}
-
+#reply{position:absolute;bottom:0px;left:0px;}
 </style>
 
 
@@ -33,6 +33,8 @@ img{display:none}
 <div id="loading-sound">Loading Audio...</div>
 
 <img id="popo" onClick="clearInterval(flashingTitle);"/>
+
+<button onclick="replay();" id="reply" style="display:none;">Replay</button>
 
 <script type="text/javascript">
 
@@ -68,20 +70,8 @@ function displayTitle(){
 	setTimeout(function(){title.childNodes[5].style.display="inline";},1950);
 	
 	setTimeout(function(){
-		flashBackground();	
-	},4050);
-}
-// about 3seconds in flash bg
-function flashBackground(){
-	var interval = 300;
-	flashingBackground = setInterval(function(){
-		var color = '#'+Math.floor(Math.random()*16777215).toString(16);
-		document.getElementsByTagName("body")[0].style.background = color;
-	},interval);
-	
-	setTimeout(function(){
 		flashTitle();	
-	},2050);
+	},4050);
 }
 
 // about 5 seconds in, flash title, set bg black, fade in pogo
@@ -89,30 +79,46 @@ function flashTitle(){
 	flashingTitle = setInterval(function(){
 		var color = '#'+Math.floor(Math.random()*16777215).toString(16);
 		document.getElementById("title-text").style.color = color;
-	},100);
+	},200);
+	
+	setTimeout(function(){		
+		flashBackground();
+	},5050);
+}
+
+// about 3seconds in flash bg
+function flashBackground(){
+	
+	flashingBackground = setInterval(function(){
+		var color = '#'+Math.floor(Math.random()*16777215).toString(16);
+		document.getElementsByTagName("body")[0].style.background = color;
+	},200);
 	
 	setTimeout(function(){
 		clearInterval(flashingBackground);
 		document.getElementsByTagName("body")[0].style.background = "#000";
-		firstImage = document.getElementById('popo'); 
-		firstImage.src = "img/popo.jpg";
-		firstImage.onload  = function(){                               
-		                firstImage.style.display="inline";
-		        }
+		fadeInImage();
 		
-		fadeInImage(firstImage);
-	},3050);
+	},7050);
 }
 
-function fadeInImage(image){
+
+
+function fadeInImage(){
+	firstImage = document.getElementById('popo');
+	firstImage.src = "img/popo.jpg";
+	firstImage.onload  = function(){                               
+	                firstImage.style.display="inline";
+	        }
 	var opacity = 0.0;
 	imageFade = setInterval(function(){
 		opacity = opacity + 0.1;
-		image.style.opacity = opacity;
+		firstImage.style.opacity = opacity;
 	},200);
 	
 	setTimeout(function(){
 		clearInterval(imageFade);
+		document.getElementById('reply').style.display="inline";
 	},4050);
 }
 
@@ -120,6 +126,27 @@ function fadeInImage(image){
 loadSound("fresh",function(){
 	console.log('async');
 });
+
+
+function replay(){
+	document.getElementsByTagName("body")[0].style.background = "#FFF";
+	var title = document.getElementById("title-text");
+	title.childNodes[0].style.display="none";
+	title.childNodes[1].style.display="none";
+	title.childNodes[2].style.display="none";
+	title.childNodes[3].style.display="none";
+	title.childNodes[4].style.display="none";
+	title.childNodes[5].style.display="none";
+	clearInterval(flashingTitle);
+	document.getElementById('popo').style.display="none";
+	document.getElementById('popo').style.opacity=0.0;
+	document.getElementById('reply').style.display="none";
+	console.log('everything cleared');
+
+	setTimeout(function(){
+		loadSound();	
+	},1000);
+}
 
 
 </script>
